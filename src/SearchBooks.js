@@ -14,51 +14,57 @@ class SearchBooks extends Component {
     updateQuery = (query) => {
         query = query.trim()
         this.setState({query})
-        this.updateBooks(query)
+        this.queryBooks(query)
     }
 
-    updateBooks = _.debounce((query) => {
-        if(query === ''){
-            this.setState({books: []})
-            return
-        } 
-        else {
+    queryBooks = _.debounce((query) => {
+        if(query) {
             BooksAPI.search(query, 10)
-            .then((books) => {
-                if(books.error){
+            .then((res) => {
+                if(res.error){
                     this.setState({books: []})
-                } else {
+                }
+                else {
+                    const books = res.map((book) => {
+                        const shelfBook = this.props.shelfBooks.find((b) => (b.id === book.id))
+                        book.shelf = shelfBook ? shelfBook.shelf : 'none'
+                        return book
+                    })
                     this.setState({books})
                 }
             }).catch((e) => {
                 this.setState({books: []})
             })
         }
+        else {
+            this.setState({books: []})
+            return
+        } 
     }, 100)
 
     render(){
         return (
-        <div className="search-books">
-            <div className="search-books-bar">
-              <Link className="close-search" to="/">Close</Link>
-              <div className="search-books-input-wrapper">
-                <input 
-                type="text" 
-                placeholder="Search by title or author"
-                value={this.state.query}
-                onChange={(e) => {this.updateQuery(e.target.value)}}/>
-              </div>
+            <div className="search-books">
+                <div className="search-books-bar">
+                <Link className="close-search" to="/">Close</Link>
+                <div className="search-books-input-wrapper">
+                    <input 
+                    type="text" 
+                    placeholder="Search by title or author"
+                    value={this.state.query}
+                    onChange={(e) => {this.updateQuery(e.target.value)}}/>
+                </div>
+                </div>
+                <div className="search-books-results">
+                <ol className="books-grid">
+                {this.state.books.map((book) => (
+                    <li key={book.id}>
+                        <Book book={book} onUpdate={this.props.onUpdate}/>
+                    </li>
+                ))}
+                </ol>
+                </div>
             </div>
-            <div className="search-books-results">
-              <ol className="books-grid">
-              {this.state.books.map((book) => (
-                  <li key={book.id}>
-                    <Book book={book}/>
-                  </li>
-              ))}
-              </ol>
-            </div>
-        </div>
         )
     }
 }

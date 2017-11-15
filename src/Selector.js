@@ -1,23 +1,10 @@
 import React, {Component} from 'react'
 
 class Selector extends Component {
-    state = {
-        value: 'none'
-    }
-
-    componentDidMount = () => {
-        this.setState({value: this.props.value})
-    }
-
-    handleChange = (event) => {
-        const value = event.target.value
-        this.setState({value})
-        this.props.onUpdate(value)
-    }
-
+    
     render(){
         return(
-            <select value={this.state.value} onChange={this.handleChange}>
+            <select value={this.props.value} onChange={(event) => {this.props.onUpdate(event.target.value)}}>
                 <option value="none" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
