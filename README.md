@@ -6,19 +6,19 @@ This repo contains codefor MyReads project. Myreads project can be used to keep 
 
 To get started developing right away on your local machine
 
-## Prerequisites
+### Prerequisites
 
 You need to have the following installed
 * node
 * npm
 * yarn (optional, only if you plan to use yarn)
 
-### For NPM Users
+### for npm users
 
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
 
-### For Yarn Users
+### for yarn users
 
 * install all project dependencies with `yarn install`
 * start the development server with `yarn start`
