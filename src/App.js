@@ -7,45 +7,45 @@ import './App.css'
 
 
 class BooksApp extends React.Component {
-  state = {
-    books: []
-  }
+    state = {
+        books: []
+    }
 
-  componentDidMount() {
-    BooksAPI.getAll().then((books) => {
-      this.setState({books})
-    })
-  }
+    componentDidMount() {
+        BooksAPI.getAll().then((books) => {
+            this.setState({books})
+        })
+    }
 
-  handleUpdateBookshelf = (book, value) => {
-    BooksAPI.update(book, value).then(() => {
-      this.setState((state) => {
-        const existingBook = state.books.find((b) => (b.id === book.id))
-        if(existingBook){
-          existingBook.shelf = value
-        }
-        else {
-          book.shelf = value
-          state.books.push(book)
-        }
-        return {books: state.books }
-      })
-    })
-  }
+    handleUpdateBookshelf = (book, value) => {
+        BooksAPI.update(book, value).then(() => {
+            this.setState((state) => {
+                const existingBook = state.books.find((b) => (b.id === book.id))
+                if(existingBook){
+                    existingBook.shelf = value
+                }
+                else {
+                    book.shelf = value
+                    state.books.push(book)
+                }
+                return {books: state.books }
+            })
+        })
+    }
 
-  render() {
-    const {books} = this.state
-    return (
-      <div className="app">
-        <Route path="/search" render={() => (
-          <SearchBooks shelfBooks={books} onUpdate={this.handleUpdateBookshelf}/>
-        )}/>
-        <Route exact path="/" render={() => (
-          <ListBookShelf books={books} onUpdate={this.handleUpdateBookshelf}/>
-        )}/>
-      </div>
-    )
-  }
+    render() {
+        const {books} = this.state
+        return (
+            <div className="app">
+                <Route path="/search" render={() => (
+                    <SearchBooks shelfBooks={books} onUpdate={this.handleUpdateBookshelf}/>
+                )}/>
+                <Route exact path="/" render={() => (
+                    <ListBookShelf books={books} onUpdate={this.handleUpdateBookshelf}/>
+                )}/>
+            </div>
+        )
+    }
 }
 
 export default BooksApp
