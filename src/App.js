@@ -17,6 +17,7 @@ class BooksApp extends React.Component {
         })
     }
 
+    // Handler to update the state if book already exsits or add the book to the state
     handleUpdateBookshelf = (book, value) => {
         BooksAPI.update(book, value).then(() => {
             this.setState((state) => {

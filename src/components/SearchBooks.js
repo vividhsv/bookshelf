@@ -11,12 +11,14 @@ class SearchBooks extends Component {
         books: []
     }
 
+    // read query input and update the query state
     updateQuery = (query) => {
         query = query.trim()
         this.setState({query})
         this.queryBooks(query)
     }
 
+    // Make the API call with debounce and get the list of books for the provided query string
     queryBooks = _.debounce((query) => {
         const {shelfBooks} = this.props
 
@@ -44,6 +46,7 @@ class SearchBooks extends Component {
         }
     }, 100)
 
+    // Handler to update the state if book already exsits or add the book to the state
     handleUpdate = (book, value) => {
         const {onUpdate} = this.props
 
